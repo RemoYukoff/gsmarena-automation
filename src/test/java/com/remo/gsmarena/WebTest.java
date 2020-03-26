@@ -3,9 +3,13 @@ package com.remo.gsmarena;
 import com.qaprosoft.carina.core.foundation.AbstractTest;
 import com.qaprosoft.carina.core.foundation.dataprovider.annotations.XlsDataSourceParameters;
 import com.remo.gsmarena.pages.HomePage;
+import com.remo.gsmarena.pages.SearchPage;
 import com.remo.gsmarena.pages.SignupPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class WebTest extends AbstractTest {
     @Test(dataProvider = "DataProvider")
@@ -22,8 +26,8 @@ public class WebTest extends AbstractTest {
                 "Signup page is not opened");
 
         Assert.assertEquals(signupPage.getTitle(), "Sign Up");
-        signupPage.signup(username,email,password);
-        if(Boolean.parseBoolean(success)){
+        signupPage.signup(username, email, password);
+        if (Boolean.parseBoolean(success)) {
             String message = signupPage.getSuccessText();
             Assert.assertEquals(message, "Your account was created.");
         } else {
@@ -44,7 +48,7 @@ public class WebTest extends AbstractTest {
         homePage = homePage.login(email, password);
 
         Assert.assertEquals(homePage.getTitle(), "Login result");
-        if(Boolean.parseBoolean(success)){
+        if (Boolean.parseBoolean(success)) {
             String message = homePage.getSuccessText();
             Assert.assertEquals(message, "Login successful.");
             Assert.assertEquals(homePage.getUserActive(), username, "User active is incorrect");
@@ -70,8 +74,22 @@ public class WebTest extends AbstractTest {
         Assert.assertEquals(homePage.getUserActive(), "Log in", "The user didn't log out");
     }
 
-    @Test
-    public void testMenu(){
+    @Test(dataProvider = "DataProvider")
+    @XlsDataSourceParameters(path = "xls/data.xlsx", sheet = "search", dsUid = "TUID",
+            dsArgs = "searchText")
+    public void search(String searchText) {
+        HomePage homePage = new HomePage(getDriver());
+        homePage.open();
+        Assert.assertTrue(homePage.isUrlAsExpected("https://www.gsmarena.com"),
+                "Home page is not opened");
 
+        searchText = searchText.toLowerCase();
+        SearchPage searchPage = homePage.search(searchText);
+        List<String> phones = searchPage.getPhonesName();
+
+        String finalSearchText = searchText;
+        float sum = phones.stream().map(phone -> phone.contains(finalSearchText) ? 1f : 0f).reduce(Float::sum).get();
+        float mean = sum / phones.size();
+        Assert.assertTrue(mean >= 0.8, "Less than 80% of the items contains the keyword " + searchText);
     }
 }

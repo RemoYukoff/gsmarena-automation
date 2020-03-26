@@ -12,6 +12,8 @@ public class HomePage extends AbstractPage {
     @FindBy(id = "menu")
     private Menu menu;
 
+    // Probably should move this to Menu component
+    ///////////////////////////////////////////////////
     //The anchor is used for both functionalities, signup and logout
     @FindBy(className = "signup-icon")
     private ExtendedWebElement singupLogoutIcon;
@@ -29,6 +31,15 @@ public class HomePage extends AbstractPage {
     @FindBy(id="nick-submit")
     private ExtendedWebElement submitButton;
 
+    @FindBy(id = "topsearch-text")
+    private ExtendedWebElement searchBox;
+
+    @FindBy(className="go")
+    private ExtendedWebElement searchButton;
+    ///////////////////////////////////////////////////
+
+    // Create a login page?
+    ///////////////////////////////////////////////////
     //Below elements are created just for a moment after the login
     @FindBy(className = "article-info-name")
     private ExtendedWebElement title;
@@ -38,6 +49,7 @@ public class HomePage extends AbstractPage {
 
     @FindBy(className = "res-success")
     private ExtendedWebElement successText;
+    ///////////////////////////////////////////////////
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -80,5 +92,11 @@ public class HomePage extends AbstractPage {
 
     public String getSuccessText() {
         return successText.findExtendedWebElement(By.tagName("h3")).getText();
+    }
+
+    public SearchPage search(String searchText){
+        searchBox.type(searchText);
+        searchButton.click();
+        return new SearchPage(driver);
     }
 }
