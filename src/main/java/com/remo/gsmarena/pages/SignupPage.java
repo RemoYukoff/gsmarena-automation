@@ -2,17 +2,11 @@ package com.remo.gsmarena.pages;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractPage;
-import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class SignupPage extends AbstractPage {
-    private static final Logger LOGGER = Logger.getLogger(SignupPage.class);
-
     @FindBy(className = "article-info-name")
     private ExtendedWebElement title;
 
