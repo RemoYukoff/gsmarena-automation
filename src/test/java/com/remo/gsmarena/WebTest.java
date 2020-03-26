@@ -34,22 +34,44 @@ public class WebTest extends AbstractTest {
 
     @Test(dataProvider = "DataProvider")
     @XlsDataSourceParameters(path = "xls/data.xlsx", sheet = "login", dsUid = "TUID",
-            dsArgs = "email, password, success")
-    public void login(String email, String password, String success) {
+            dsArgs = "username, email, password, success")
+    public void login(String username, String email, String password, String success) {
         HomePage homePage = new HomePage(getDriver());
         homePage.open();
         Assert.assertTrue(homePage.isUrlAsExpected("https://www.gsmarena.com"),
                 "Home page is not opened");
 
-        homePage.login(email, password);
+        homePage = homePage.login(email, password);
 
         Assert.assertEquals(homePage.getTitle(), "Login result");
         if(Boolean.parseBoolean(success)){
             String message = homePage.getSuccessText();
             Assert.assertEquals(message, "Login successful.");
+            Assert.assertEquals(homePage.getUserActive(), username, "User active is incorrect");
         } else {
             String message = homePage.getErrorText();
             Assert.assertEquals(message, "Login failed.");
         }
+    }
+
+    @Test(dataProvider = "DataProvider")
+    @XlsDataSourceParameters(path = "xls/data.xlsx", sheet = "login", dsUid = "TUID",
+            dsArgs = "email, password")
+    public void logout(String username, String email, String password) {
+        HomePage homePage = new HomePage(getDriver());
+        homePage.open();
+        Assert.assertTrue(homePage.isUrlAsExpected("https://www.gsmarena.com"),
+                "Home page is not opened");
+
+        homePage = homePage.login(email, password);
+
+        Assert.assertEquals(homePage.getUserActive(), username, "User not logged in");
+        homePage.logout();
+        Assert.assertEquals(homePage.getUserActive(), "Log in", "The user didn't log out");
+    }
+
+    @Test
+    public void testMenu(){
+
     }
 }

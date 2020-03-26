@@ -12,11 +12,13 @@ public class HomePage extends AbstractPage {
     @FindBy(id = "menu")
     private Menu menu;
 
+    //The anchor is used for both functionalities, signup and logout
     @FindBy(className = "signup-icon")
-    private ExtendedWebElement signupLink;
+    private ExtendedWebElement singupLogoutIcon;
 
+    //Contains the username when logged in, otherwise used for login and contains text "Log in"
     @FindBy(id = "login-active")
-    private ExtendedWebElement loginButton;
+    private ExtendedWebElement loginUserIcon;
 
     @FindBy(id="email")
     private ExtendedWebElement emailInput;
@@ -46,15 +48,26 @@ public class HomePage extends AbstractPage {
     }
 
     public SignupPage getSignupPage(){
-        signupLink.click();
+        singupLogoutIcon.click();
         return new SignupPage(driver);
     }
 
-    public void login(String email,String password){
-        loginButton.click();
+    public HomePage login(String email,String password){
+        loginUserIcon.click();
         emailInput.type(email);
         passwordInput.type(password);
         submitButton.click();
+        return new HomePage(driver);
+    }
+
+    public HomePage logout(){
+        singupLogoutIcon.click();
+        return new HomePage(driver);
+    }
+
+    public String getUserActive(){
+        String user = loginUserIcon.findExtendedWebElement(By.tagName("span")).getText();
+        return user;
     }
 
     public String getTitle(){

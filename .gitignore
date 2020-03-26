@@ -4,3 +4,5 @@ target
 gsmarena-automation.iml
 LICENSE
 README.md
+~$testcases.xlsx
+src/test/resources/xls/~$data.xlsx
