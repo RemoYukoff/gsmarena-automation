@@ -2,14 +2,14 @@ package com.remo.gsmarena;
 
 import com.qaprosoft.carina.core.foundation.AbstractTest;
 import com.qaprosoft.carina.core.foundation.dataprovider.annotations.XlsDataSourceParameters;
-import com.remo.gsmarena.pages.HomePage;
-import com.remo.gsmarena.pages.SearchPage;
-import com.remo.gsmarena.pages.SignupPage;
+import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
+import com.remo.gsmarena.components.Menu;
+import com.remo.gsmarena.pages.*;
+import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class WebTest extends AbstractTest {
     @Test(dataProvider = "DataProvider")
@@ -91,5 +91,147 @@ public class WebTest extends AbstractTest {
         float sum = phones.stream().map(phone -> phone.contains(finalSearchText) ? 1f : 0f).reduce(Float::sum).get();
         float mean = sum / phones.size();
         Assert.assertTrue(mean >= 0.8, "Less than 80% of the items contains the keyword " + searchText);
+    }
+
+    @Test
+    public void menuContactPage() {
+        HomePage homePage = new HomePage(getDriver());
+        homePage.open();
+        Assert.assertTrue(homePage.isUrlAsExpected("https://www.gsmarena.com"),
+                "Home page is not opened");
+
+        Menu menu = homePage.getMenu();
+        ContactPage page = menu.openContactPage();
+        Assert.assertEquals(page.getTitle(), "Contact us", "Incorrect Title");
+        Assert.assertTrue(page.getInfoElement().isPresent(), "Contact info not present");
+    }
+
+    @Test
+    public void menuCoveragePage() {
+        HomePage homePage = new HomePage(getDriver());
+        homePage.open();
+        Assert.assertTrue(homePage.isUrlAsExpected("https://www.gsmarena.com"),
+                "Home page is not opened");
+
+        Menu menu = homePage.getMenu();
+        CoveragePage page = menu.openCoveragePage();
+        Assert.assertEquals(page.getTitle(), "Network coverage", "Incorrect Title");
+        Assert.assertTrue(page.getCountrySelector().isClickable(), "Country selector not clickable");
+    }
+
+    @Test
+    public void menuGlossaryPage() {
+        HomePage homePage = new HomePage(getDriver());
+        homePage.open();
+        Assert.assertTrue(homePage.isUrlAsExpected("https://www.gsmarena.com"),
+                "Home page is not opened");
+
+        Menu menu = homePage.getMenu();
+        GlossaryPage page = menu.openGlossaryPage();
+        Assert.assertEquals(page.getTitle(), "Mobile terms glossary", "Incorrect Title");
+        boolean linkClickable = page.getInfoElement()
+                .findExtendedWebElement(By.xpath("//*[@id='body']/div/div[2]/p[1]/a[1]"))
+                .isClickable();
+        Assert.assertTrue(linkClickable,"Glossary link not clickable");
+    }
+
+    @Test
+    public void menuToolsPage() {
+        HomePage homePage = new HomePage(getDriver());
+        homePage.open();
+        Assert.assertTrue(homePage.isUrlAsExpected("https://www.gsmarena.com"),
+                "Home page is not opened");
+
+        Menu menu = homePage.getMenu();
+        ToolsPage page = menu.openToolsPage();
+        Assert.assertEquals(page.getTitle(), "GSMArena Tools & Features", "Incorrect Title");
+        List<String> tools=page.getToolsName();
+        Assert.assertEquals(tools.get(0),"Compare");
+        Assert.assertEquals(tools.get(1),"Photo and Video Compare");
+        Assert.assertEquals(tools.get(2),"Battery life table");
+        Assert.assertEquals(tools.get(3),"GSMArena Labs");
+        Assert.assertEquals(tools.get(4),"Coverage");
+        Assert.assertEquals(tools.get(5),"FAQ");
+        Assert.assertEquals(tools.get(6),"Webmaster Tools");
+        Assert.assertEquals(tools.get(7),"Glossary");
+    }
+
+    @Test
+    public void menuPhoneFinderPage() {
+        HomePage homePage = new HomePage(getDriver());
+        homePage.open();
+        Assert.assertTrue(homePage.isUrlAsExpected("https://www.gsmarena.com"),
+                "Home page is not opened");
+
+        Menu menu = homePage.getMenu();
+        PhoneFinderPage page = menu.openPhoneFinderPage();
+        Assert.assertEquals(page.getTitle(), "Phone finder", "Incorrect Title");
+        Assert.assertTrue(page.getPhonesTab().isClickable(),"Phones tab not clickable");
+        Assert.assertTrue(page.getTabletsTab().isClickable(),"Tablets tab not clickable");
+    }
+
+    @Test
+    public void menuFeaturedPage() {
+        HomePage homePage = new HomePage(getDriver());
+        homePage.open();
+        Assert.assertTrue(homePage.isUrlAsExpected("https://www.gsmarena.com"),
+                "Home page is not opened");
+
+        Menu menu = homePage.getMenu();
+        NewsPage page = menu.openFeaturedPage();
+        Assert.assertEquals(page.getTitle(), "Articles tagged \"Featured\"", "Incorrect Title");
+        page.getSearchTextField().type("test");
+        Assert.assertEquals(page.getSearchTextField().getAttribute("value"),"test");
+        Assert.assertTrue(page.getSearchButton().isClickable());
+    }
+
+    @Test
+    public void menuVideosPage() {
+        HomePage homePage = new HomePage(getDriver());
+        homePage.open();
+        Assert.assertTrue(homePage.isUrlAsExpected("https://www.gsmarena.com"),
+                "Home page is not opened");
+
+        Menu menu = homePage.getMenu();
+        VideosPage page = menu.openVideosPage();
+        Assert.assertEquals(page.getTitle(), "Videos", "Incorrect Title");
+        for(ExtendedWebElement video:page.getVideos()){
+            Assert.assertTrue(video.isVisible());
+            Assert.assertTrue(video.isClickable());
+        }
+    }
+
+    @Test
+    public void menuReviewsPage() {
+        HomePage homePage = new HomePage(getDriver());
+        homePage.open();
+        Assert.assertTrue(homePage.isUrlAsExpected("https://www.gsmarena.com"),
+                "Home page is not opened");
+
+        Menu menu = homePage.getMenu();
+        ReviewsPage page = menu.openReviewsPage();
+        Assert.assertEquals(page.getTitle(), "Reviews", "Incorrect Title");
+        page.getSearchTextField().type("test");
+        Assert.assertEquals(page.getSearchTextField().getAttribute("value"),"test");
+        Assert.assertTrue(page.getSearchButton().isClickable());
+        for(ExtendedWebElement review:page.getReviews()){
+            Assert.assertTrue(review.isVisible());
+            Assert.assertTrue(review.isClickable());
+        }
+    }
+
+    @Test
+    public void menuNewsPage() {
+        HomePage homePage = new HomePage(getDriver());
+        homePage.open();
+        Assert.assertTrue(homePage.isUrlAsExpected("https://www.gsmarena.com"),
+                "Home page is not opened");
+
+        Menu menu = homePage.getMenu();
+        NewsPage page = menu.openNewsPage();
+        Assert.assertEquals(page.getTitle(), "News", "Incorrect Title");
+        page.getSearchTextField().type("test");
+        Assert.assertEquals(page.getSearchTextField().getAttribute("value"),"test");
+        Assert.assertTrue(page.getSearchButton().isClickable());
     }
 }

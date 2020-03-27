@@ -24,7 +24,7 @@
 		<classes>
 			<class name="com.remo.gsmarena.WebTest">
 				<methods>
-					<include name="search"/>
+					<include name="menuPhoneFinderPage"/>
 				</methods>
 			</class>
 		</classes>

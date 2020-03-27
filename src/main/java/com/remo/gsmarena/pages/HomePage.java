@@ -8,9 +8,14 @@ import org.openqa.selenium.support.FindBy;
 
 import com.qaprosoft.carina.core.gui.AbstractPage;
 
+import java.util.concurrent.TimeUnit;
+
 public class HomePage extends AbstractPage {
     @FindBy(id = "menu")
     private Menu menu;
+
+    @FindBy(xpath = "//*[@id='header']/div/div/button")
+    private ExtendedWebElement burguerButton;
 
     // Probably should move this to Menu component
     ///////////////////////////////////////////////////
@@ -56,6 +61,7 @@ public class HomePage extends AbstractPage {
     }
 
     public Menu getMenu() {
+        burguerButton.click();
         return menu;
     }
 

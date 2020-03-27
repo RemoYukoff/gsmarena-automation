@@ -9,34 +9,34 @@ import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebEleme
 import com.qaprosoft.carina.core.gui.AbstractUIObject;
 
 public class Menu extends AbstractUIObject {
-    @FindBy(linkText = "Home")
+    @FindBy(xpath = ".//a[text()='Home']")
     private ExtendedWebElement homeLink;
 
-    @FindBy(linkText = "News")
+    @FindBy(xpath = ".//a[text()='News']")
     private ExtendedWebElement newsLink;
 
-    @FindBy(linkText = "Reviews")
+    @FindBy(xpath = ".//a[text()='Reviews']")
     private ExtendedWebElement reviewsLink;
 
-    @FindBy(linkText = "Videos")
+    @FindBy(xpath = ".//a[text()='Videos']")
     private ExtendedWebElement videosLink;
 
-    @FindBy(linkText = "Featured")
+    @FindBy(xpath = ".//a[text()='Featured']")
     private ExtendedWebElement featuredLink;
 
-    @FindBy(linkText = "Phone Finder")
+    @FindBy(xpath = ".//a[text()='Phone Finder']")
     private ExtendedWebElement phoneFinderLink;
 
-    @FindBy(linkText = "Tools")
+    @FindBy(xpath = ".//a[text()='Tools']")
     private ExtendedWebElement toolsLink;
 
-    @FindBy(linkText = "Glossary")
+    @FindBy(xpath = ".//a[text()='Glossary']")
     private ExtendedWebElement glossaryLink;
 
-    @FindBy(linkText = "Coverage")
+    @FindBy(xpath = ".//a[text()='Coverage']")
     private ExtendedWebElement coverageLink;
 
-    @FindBy(linkText = "Contact")
+    @FindBy(xpath = ".//a[text()='Contact']")
     private ExtendedWebElement contactLink;
 
     public Menu(WebDriver driver, SearchContext searchContext) {
@@ -48,40 +48,40 @@ public class Menu extends AbstractUIObject {
         return new HomePage(driver);
     }
 
-//    public NewsPage openNewsPage() {
-//        newsLink.click();
-//        return new NewsPage(driver);
-//    }
-//
-//    public ReviewsPage openReviewsPage() {
-//        reviewsLink.click();
-//        return new ReviewsPage(driver);
-//    }
-//
-//    public VideosPage openVideosPage() {
-//        videosLink.click();
-//        return new VideosPage(driver);
-//    }
-//
-//    public NewsPage openFeaturedPage() {
-//        featuredLink.click();
-//        return new NewsPage(driver);
-//    }
-//
-//    public PhoneFinderPage openPhoneFinderPage() {
-//        phoneFinderLink.click();
-//        return new PhoneFinderPage(driver);
-//    }
-//
-//    public ToolsPage openToolsPage() {
-//        toolsLink.click();
-//        return new ToolsPage(driver);
-//    }
-//
-//    public GlossaryPage openGlossaryPage() {
-//        glossaryLink.click();
-//        return new GlossaryPage(driver);
-//    }
+    public NewsPage openNewsPage() {
+        newsLink.click();
+        return new NewsPage(driver);
+    }
+
+    public ReviewsPage openReviewsPage() {
+        reviewsLink.click();
+        return new ReviewsPage(driver);
+    }
+
+    public VideosPage openVideosPage() {
+        videosLink.click();
+        return new VideosPage(driver);
+    }
+
+    public NewsPage openFeaturedPage() {
+        featuredLink.click();
+        return new NewsPage(driver);
+    }
+
+    public PhoneFinderPage openPhoneFinderPage() {
+        phoneFinderLink.click();
+        return new PhoneFinderPage(driver);
+    }
+
+    public ToolsPage openToolsPage() {
+        toolsLink.click();
+        return new ToolsPage(driver);
+    }
+
+    public GlossaryPage openGlossaryPage() {
+        glossaryLink.click();
+        return new GlossaryPage(driver);
+    }
 
     public CoveragePage openCoveragePage() {
         coverageLink.click();
