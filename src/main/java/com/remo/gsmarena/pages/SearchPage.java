@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class SearchPage extends AbstractPage {
-    @FindBy(xpath="//*[@id=\"review-body\"]/div/ul//li/a/strong/span")
+    @FindBy(xpath="//*[@id='review-body']/div/ul//li/a/strong/span")
     private List<ExtendedWebElement> phones;
 
     public SearchPage(WebDriver driver) {

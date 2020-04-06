@@ -6,7 +6,6 @@ import com.qaprosoft.carina.core.foundation.utils.R;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.remo.gsmarena.components.Menu;
 import com.remo.gsmarena.pages.*;
-import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -16,9 +15,9 @@ public class WebTest extends AbstractTest {
     private static final String URL = R.CONFIG.get("url");
 
     @Test(dataProvider = "DataProvider")
-    @XlsDataSourceParameters(path = "xls/data.xlsx", sheet = "registration", dsUid = "TUID",
-            dsArgs = "username, password, email, success")
-    public void registration(String username, String password, String email, String success) {
+    @XlsDataSourceParameters(path = "xls/data.xlsx", sheet = "registrationValid", dsUid = "TUID",
+            dsArgs = "username, password, email")
+    public void registrationValid(String username, String password, String email) {
         HomePage homePage = new HomePage(getDriver());
         homePage.open();
         Assert.assertTrue(homePage.isUrlAsExpected(URL),
@@ -30,19 +29,33 @@ public class WebTest extends AbstractTest {
 
         Assert.assertEquals(signupPage.getTitle(), "Sign Up");
         signupPage.signup(username, email, password);
-        if (Boolean.parseBoolean(success)) {
-            String message = signupPage.getSuccessText();
-            Assert.assertEquals(message, "Your account was created.");
-        } else {
-            String message = signupPage.getErrorText();
-            Assert.assertEquals(message, "The operation failed.");
-        }
+        String message = signupPage.getSuccessText();
+        Assert.assertEquals(message, "Your account was created.");
     }
 
     @Test(dataProvider = "DataProvider")
-    @XlsDataSourceParameters(path = "xls/data.xlsx", sheet = "login", dsUid = "TUID",
-            dsArgs = "username, email, password, success")
-    public void login(String username, String email, String password, String success) {
+    @XlsDataSourceParameters(path = "xls/data.xlsx", sheet = "registrationFail", dsUid = "TUID",
+            dsArgs = "username, password, email")
+    public void registrationFail(String username, String password, String email) {
+        HomePage homePage = new HomePage(getDriver());
+        homePage.open();
+        Assert.assertTrue(homePage.isUrlAsExpected(URL),
+                "Home page is not opened");
+
+        SignupPage signupPage = homePage.getSignupPage();
+        Assert.assertTrue(signupPage.isUrlAsExpected(URL+"/register.php3"),
+                "Signup page is not opened");
+
+        Assert.assertEquals(signupPage.getTitle(), "Sign Up");
+        signupPage.signup(username, email, password);
+        String message = signupPage.getErrorText();
+        Assert.assertEquals(message, "The operation failed.");
+    }
+
+    @Test(dataProvider = "DataProvider")
+    @XlsDataSourceParameters(path = "xls/data.xlsx", sheet = "loginFail", dsUid = "TUID",
+            dsArgs = "email, password")
+    public void loginFail(String email, String password) {
         HomePage homePage = new HomePage(getDriver());
         homePage.open();
         Assert.assertTrue(homePage.isUrlAsExpected(URL),
@@ -51,14 +64,25 @@ public class WebTest extends AbstractTest {
         homePage = homePage.login(email, password);
 
         Assert.assertEquals(homePage.getTitle(), "Login result");
-        if (Boolean.parseBoolean(success)) {
-            String message = homePage.getSuccessText();
-            Assert.assertEquals(message, "Login successful.");
-            Assert.assertEquals(homePage.getUserActive(), username, "User active is incorrect");
-        } else {
-            String message = homePage.getErrorText();
-            Assert.assertEquals(message, "Login failed.");
-        }
+        String message = homePage.getErrorText();
+        Assert.assertEquals(message, "Login failed.");
+    }
+
+    @Test(dataProvider = "DataProvider")
+    @XlsDataSourceParameters(path = "xls/data.xlsx", sheet = "loginValid", dsUid = "TUID",
+            dsArgs = "username, email, password")
+    public void loginValid(String username, String email, String password) {
+        HomePage homePage = new HomePage(getDriver());
+        homePage.open();
+        Assert.assertTrue(homePage.isUrlAsExpected(URL),
+                "Home page is not opened");
+
+        homePage = homePage.login(email, password);
+
+        Assert.assertEquals(homePage.getTitle(), "Login result");
+        String message = homePage.getSuccessText();
+        Assert.assertEquals(message, "Login successful.");
+        Assert.assertEquals(homePage.getUserActive(), username, "User active is incorrect");
     }
 
     @Test(dataProvider = "DataProvider")
