@@ -5,12 +5,14 @@ import com.qaprosoft.carina.core.gui.AbstractPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.List;
+
 public class GlossaryPage extends AbstractPage {
     @FindBy(className = "article-info-name")
     private ExtendedWebElement title;
 
-    @FindBy(className = "st-text")
-    private ExtendedWebElement info;
+    @FindBy(xpath = "//*[@class='st-text']//a")
+    private List<ExtendedWebElement> wordsLinks;
 
     public GlossaryPage(WebDriver driver) {
         super(driver);
@@ -20,7 +22,7 @@ public class GlossaryPage extends AbstractPage {
         return title.getText();
     }
 
-    public ExtendedWebElement getInfoElement(){
-        return info;
+    public List<ExtendedWebElement> getLinks(){
+        return wordsLinks;
     }
 }

@@ -132,10 +132,9 @@ public class WebTest extends AbstractTest {
         Menu menu = homePage.getMenu();
         GlossaryPage page = menu.openGlossaryPage();
         Assert.assertEquals(page.getTitle(), "Mobile terms glossary", "Incorrect Title");
-        boolean linkClickable = page.getInfoElement()
-                .findExtendedWebElement(By.xpath("//*[@id='body']/div/div[2]/p[1]/a[1]"))
-                .isClickable();
-        Assert.assertTrue(linkClickable,"Glossary link not clickable");
+        for(ExtendedWebElement link:page.getLinks()){
+            Assert.assertTrue(link.isClickable(), "Glossary link not clickable");
+        }
     }
 
     @Test
