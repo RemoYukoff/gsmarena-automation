@@ -2,6 +2,7 @@ package com.remo.gsmarena;
 
 import com.qaprosoft.carina.core.foundation.AbstractTest;
 import com.qaprosoft.carina.core.foundation.dataprovider.annotations.XlsDataSourceParameters;
+import com.qaprosoft.carina.core.foundation.utils.R;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.remo.gsmarena.components.Menu;
 import com.remo.gsmarena.pages.*;
@@ -12,17 +13,19 @@ import org.testng.annotations.Test;
 import java.util.List;
 
 public class WebTest extends AbstractTest {
+    private static final String URL = R.CONFIG.get("url");
+
     @Test(dataProvider = "DataProvider")
     @XlsDataSourceParameters(path = "xls/data.xlsx", sheet = "registration", dsUid = "TUID",
             dsArgs = "username, password, email, success")
     public void registration(String username, String password, String email, String success) {
         HomePage homePage = new HomePage(getDriver());
         homePage.open();
-        Assert.assertTrue(homePage.isUrlAsExpected("https://www.gsmarena.com"),
+        Assert.assertTrue(homePage.isUrlAsExpected(URL),
                 "Home page is not opened");
 
         SignupPage signupPage = homePage.getSignupPage();
-        Assert.assertTrue(signupPage.isUrlAsExpected("https://www.gsmarena.com/register.php3"),
+        Assert.assertTrue(signupPage.isUrlAsExpected(URL+"/register.php3"),
                 "Signup page is not opened");
 
         Assert.assertEquals(signupPage.getTitle(), "Sign Up");
@@ -42,7 +45,7 @@ public class WebTest extends AbstractTest {
     public void login(String username, String email, String password, String success) {
         HomePage homePage = new HomePage(getDriver());
         homePage.open();
-        Assert.assertTrue(homePage.isUrlAsExpected("https://www.gsmarena.com"),
+        Assert.assertTrue(homePage.isUrlAsExpected(URL),
                 "Home page is not opened");
 
         homePage = homePage.login(email, password);
@@ -64,7 +67,7 @@ public class WebTest extends AbstractTest {
     public void logout(String username, String email, String password) {
         HomePage homePage = new HomePage(getDriver());
         homePage.open();
-        Assert.assertTrue(homePage.isUrlAsExpected("https://www.gsmarena.com"),
+        Assert.assertTrue(homePage.isUrlAsExpected(URL),
                 "Home page is not opened");
 
         homePage = homePage.login(email, password);
@@ -80,7 +83,7 @@ public class WebTest extends AbstractTest {
     public void search(String searchText) {
         HomePage homePage = new HomePage(getDriver());
         homePage.open();
-        Assert.assertTrue(homePage.isUrlAsExpected("https://www.gsmarena.com"),
+        Assert.assertTrue(homePage.isUrlAsExpected(URL),
                 "Home page is not opened");
 
         searchText = searchText.toLowerCase();
@@ -97,7 +100,7 @@ public class WebTest extends AbstractTest {
     public void menuContactPage() {
         HomePage homePage = new HomePage(getDriver());
         homePage.open();
-        Assert.assertTrue(homePage.isUrlAsExpected("https://www.gsmarena.com"),
+        Assert.assertTrue(homePage.isUrlAsExpected(URL),
                 "Home page is not opened");
 
         Menu menu = homePage.getMenu();
@@ -110,7 +113,7 @@ public class WebTest extends AbstractTest {
     public void menuCoveragePage() {
         HomePage homePage = new HomePage(getDriver());
         homePage.open();
-        Assert.assertTrue(homePage.isUrlAsExpected("https://www.gsmarena.com"),
+        Assert.assertTrue(homePage.isUrlAsExpected(URL),
                 "Home page is not opened");
 
         Menu menu = homePage.getMenu();
@@ -123,7 +126,7 @@ public class WebTest extends AbstractTest {
     public void menuGlossaryPage() {
         HomePage homePage = new HomePage(getDriver());
         homePage.open();
-        Assert.assertTrue(homePage.isUrlAsExpected("https://www.gsmarena.com"),
+        Assert.assertTrue(homePage.isUrlAsExpected(URL),
                 "Home page is not opened");
 
         Menu menu = homePage.getMenu();
@@ -139,7 +142,7 @@ public class WebTest extends AbstractTest {
     public void menuToolsPage() {
         HomePage homePage = new HomePage(getDriver());
         homePage.open();
-        Assert.assertTrue(homePage.isUrlAsExpected("https://www.gsmarena.com"),
+        Assert.assertTrue(homePage.isUrlAsExpected(URL),
                 "Home page is not opened");
 
         Menu menu = homePage.getMenu();
@@ -160,7 +163,7 @@ public class WebTest extends AbstractTest {
     public void menuPhoneFinderPage() {
         HomePage homePage = new HomePage(getDriver());
         homePage.open();
-        Assert.assertTrue(homePage.isUrlAsExpected("https://www.gsmarena.com"),
+        Assert.assertTrue(homePage.isUrlAsExpected(URL),
                 "Home page is not opened");
 
         Menu menu = homePage.getMenu();
@@ -174,7 +177,7 @@ public class WebTest extends AbstractTest {
     public void menuFeaturedPage() {
         HomePage homePage = new HomePage(getDriver());
         homePage.open();
-        Assert.assertTrue(homePage.isUrlAsExpected("https://www.gsmarena.com"),
+        Assert.assertTrue(homePage.isUrlAsExpected(URL),
                 "Home page is not opened");
 
         Menu menu = homePage.getMenu();
@@ -189,7 +192,7 @@ public class WebTest extends AbstractTest {
     public void menuVideosPage() {
         HomePage homePage = new HomePage(getDriver());
         homePage.open();
-        Assert.assertTrue(homePage.isUrlAsExpected("https://www.gsmarena.com"),
+        Assert.assertTrue(homePage.isUrlAsExpected(URL),
                 "Home page is not opened");
 
         Menu menu = homePage.getMenu();
@@ -205,7 +208,7 @@ public class WebTest extends AbstractTest {
     public void menuReviewsPage() {
         HomePage homePage = new HomePage(getDriver());
         homePage.open();
-        Assert.assertTrue(homePage.isUrlAsExpected("https://www.gsmarena.com"),
+        Assert.assertTrue(homePage.isUrlAsExpected(URL),
                 "Home page is not opened");
 
         Menu menu = homePage.getMenu();
@@ -224,7 +227,7 @@ public class WebTest extends AbstractTest {
     public void menuNewsPage() {
         HomePage homePage = new HomePage(getDriver());
         homePage.open();
-        Assert.assertTrue(homePage.isUrlAsExpected("https://www.gsmarena.com"),
+        Assert.assertTrue(homePage.isUrlAsExpected(URL),
                 "Home page is not opened");
 
         Menu menu = homePage.getMenu();
