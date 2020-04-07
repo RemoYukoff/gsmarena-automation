@@ -1,0 +1,21 @@
+{
+  "_meta": {
+    "success": true,
+    "code": 200,
+    "message": "skip",
+    "rateLimit": "skip"
+  },
+  "result": {
+    "id": "skip",
+    "first_name": "${first_name}",
+    "last_name": "${last_name}",
+    "gender": "male",
+    "email": "skip",
+    "dob": "skip",
+    "phone": null,
+    "website": null,
+    "address": null,
+    "status": null,
+    "_links": "skip"
+  }
+}
